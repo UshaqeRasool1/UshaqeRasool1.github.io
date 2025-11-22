@@ -1,223 +1,385 @@
-<!-- PART 1 — COMPLETE HTML TEMPLATE WITH PLACEHOLDERS -->
-<!-- Your logo file should be placed as: /logo.png in same folder -->
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ushaq-e-Rasool Organization</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Your Site — animated</title>
+  <meta name="description" content="Animated site inspired by sjp.gos.pk — hero entrance, card reveals, smooth tabs." />
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #d7ffd7; /* Light Green */
-        }
+  <!-- Fonts (optional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-        /* SIDEBAR */
-        #sidebar {
-            width: 260px;
-            background: #0b5e0b;
-            color: white;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            padding-top: 20px;
-            overflow-y: auto;
-        }
+  <!-- Basic site CSS (keep your own colors/structure if you want; these are enhancements) -->
+  <style>
+    :root{
+      --bg:#f6fbf6;
+      --card:#ffffff;
+      --muted:#5b6b5b;
+      --accent:#0b5e0b;
+      --accent-2:#7ee37e;
+      --glass: rgba(255,255,255,0.7);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;margin:0;background:var(--bg);color:#113;line-height:1.45;}
+    .container{max-width:1180px;margin:32px auto;padding:18px;}
+    header.site-header{display:flex;align-items:center;gap:18px;padding:12px 0;}
+    .logo{display:flex;align-items:center;gap:12px;}
+    .logo img{width:64px;height:64px;object-fit:contain;border-radius:8px;box-shadow:0 4px 18px rgba(16,48,16,0.06);}
+    .brand{font-size:20px;font-weight:700;color:#083;letter-spacing:0.2px;}
+    nav.sidebar{width:240px;flex-shrink:0;}
+    .main-layout{display:flex;gap:20px;align-items:flex-start;}
+    .content{flex:1;}
 
-        #sidebar h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    /* HERO */
+    .hero{
+      display:flex;
+      align-items:center;
+      gap:20px;
+      padding:20px;
+      border-radius:14px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.96));
+      box-shadow: 0 8px 30px rgba(8,20,10,0.04);
+      margin-bottom:18px;
+    }
+    .hero .hero-text{flex:1}
+    .hero h1{font-size:30px;margin:0 0 6px 0;color:#0b3d0b;}
+    .hero p{margin:0;color:var(--muted);}
+    .hero .hero-actions{display:flex;gap:12px;margin-top:12px;}
+    .btn{display:inline-block;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600;cursor:pointer;}
+    .btn.primary{background:linear-gradient(180deg,var(--accent-2),var(--accent));color:white;border:0;}
+    .btn.ghost{background:transparent;border:1px solid rgba(8,40,8,0.06);color:var(--accent);}
 
-        .nav-btn {
-            padding: 14px;
-            border: none;
-            width: 100%;
-            text-align: left;
-            color: white;
-            background: transparent;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .nav-btn:hover {
-            background: #0a4f0a;
-        }
+    /* TABS / SIDEBAR */
+    .tabs-wrapper{display:flex;gap:16px;}
+    .sidebar {background:transparent;padding:6px;border-radius:10px;}
+    .nav-list{display:flex;flex-direction:column;gap:8px;}
+    .nav-btn{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:transparent;border:0;cursor:pointer;color:#163916;text-align:left;}
+    .nav-btn:hover{background:linear-gradient(90deg, rgba(7,97,7,0.05), rgba(122,255,122,0.02));transform:translateX(4px);transition:all .18s ease}
+    .nav-btn.active{background:linear-gradient(90deg, rgba(11,94,11,0.09), rgba(126,227,126,0.02));box-shadow:0 6px 18px rgba(6,40,6,0.04);}
 
-        /* CONTENT */
-        #content {
-            margin-left: 260px;
-            padding: 20px;
-        }
+    /* small active indicator on nav-btns */
+    .nav-btn.active::before{
+      content:"";
+      position:absolute;
+      left:0;
+      width:6px;
+      height:100%;
+      background:linear-gradient(180deg,var(--accent-2),var(--accent));
+      border-radius:8px;
+    }
+    .nav-btn{position:relative;padding-left:18px;}
 
-        .tab {
-            display: none;
-        }
-        .active {
-            display: block;
-        }
+    /* Tab panes */
+    .tab{display:none;opacity:0;transform:translateY(8px);transition:opacity .36s ease, transform .36s ease;}
+    .tab.active{display:block;opacity:1;transform:translateY(0);}
 
-        /* MAIN HERO */
-        .hero {
-            text-align: center;
-            padding: 40px;
-        }
-        .hero img {
-            width: 180px;
-            height: auto;
-            margin-top: 10px;
-        }
+    /* cards / boxes */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:14px;}
+    .box{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 22px rgba(12,36,12,0.04);transition:transform .28s ease, box-shadow .28s ease, opacity .3s ease;will-change:transform,opacity;}
+    .box h3{margin:0 0 8px 0;font-size:16px;color:#123;}
+    .box p{margin:0;color:var(--muted);font-size:13px;}
+    .box:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 12px 36px rgba(12,36,12,0.08);}
 
-        /* GENERIC BOX STYLE */
-        .box {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0px 2px 5px rgba(0,0,0,0.15);
-        }
+    footer{margin-top:28px;padding:18px 0;color:var(--muted);font-size:14px;text-align:center;}
 
-        /* VIDEO EMBED */
-        .video-wrap iframe {
-            width: 100%;
-            height: 350px;
-            border-radius: 10px;
-            border: none;
-        }
+    /* A11y: respect prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce){
+      *{transition:none !important;animation:none !important;scroll-behavior:auto !important;}
+    }
 
-        .open-btn {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 16px;
-            background: #0b5e0b;
-            color: white;
-            border-radius: 6px;
-            text-decoration: none;
-        }
-        .open-btn:hover { background: #0a4f0a; }
-    </style>
+    /* Responsive */
+    @media (max-width:880px){
+      .main-layout{flex-direction:column;}
+      nav.sidebar{width:100%;}
+      .hero{flex-direction:column;align-items:flex-start;}
+    }
+
+    /* AOS convenience (so elements not jumpy if AOS loaded late) */
+    [data-aos]{opacity:0;transform:translateY(12px);transition:opacity .4s ease, transform .4s ease;}
+    [data-aos].aos-animate{opacity:1;transform:none;}
+	/* Facebook video responsive wrapper */
+	.fb-video-wrap {
+	  position: relative;
+	  width: 100%;
+	  /* 16:9 aspect ratio - change if you want 4:3 etc. */
+	  padding-bottom: 56.25%;
+	  height: 0;
+	  overflow: hidden;
+	  border-radius: 10px;
+	  box-shadow: 0 8px 28px rgba(10,40,10,0.06);
+	  background: #fff;
+	}
+
+	/* target FB plugin container so it fills wrapper */
+	.fb-video-wrap > .fb-video,
+	.fb-video-wrap iframe {
+	  position: absolute !important;
+	  top: 0;
+	  left: 0;
+	  width: 100% !important;
+	  height: 100% !important;
+	  border: 0;
+	}
+
+  </style>
+
+  <!-- AOS (Animate On Scroll) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js" defer></script>
+  <!-- AOS script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" defer></script>
+  <!-- Lottie (optional for vector animations) -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" defer></script>
 </head>
-
 <body>
-    <!-- SIDEBAR -->
-    <div id="sidebar">
-        <h2>Navigation</h2>
-        <button class="nav-btn" onclick="openTab('home')">Home</button>
-        <button class="nav-btn" onclick="openTab('pdfs')">PDF Books</button>
-        <button class="nav-btn" onclick="openTab('meelad')">Annual Meelad Videos</button>
-        <button class="nav-btn" onclick="openTab('dargah')">Dargah</button>
-        <button class="nav-btn" onclick="openTab('hazri')">Hazri Dargah</button>
-        <button class="nav-btn" onclick="openTab('shajra')">Shajra</button>
-        <button class="nav-btn" onclick="openTab('projects')">Our Projects</button>
-        <button class="nav-btn" onclick="openTab('donation')">Donation Center</button>
-        <button class="nav-btn" onclick="openTab('links')">Other Links</button>
-    </div>
-
-    <!-- PAGE CONTENT -->
-    <div id="content">
-
-        <!-- HOME TAB -->
-        <div id="home" class="tab active">
-            <div class="hero">
-                <h1 style="color: #0b5e0b; font-size: 48px;">Ushaq-e-Rasool</h1>
-                <img src="logo.png" alt="Organization Logo">
-                <p>Welcome to our official organization website.</p>
-            </div>
+  <div class="container">
+    <header class="site-header" role="banner">
+      <div class="logo" aria-hidden="false">
+        <!-- Replace logo.png with your actual logo -->
+        <img src="logo.png" alt="Site Logo" id="siteLogo" />
+        <div>
+          <div class="brand">Ushaq_e_Rasool</div>
+          <div style="font-size:13px;color:var(--muted);">Asaan Ahyoun Ashiq_e_Rasool</div>
         </div>
+      </div>
+    </header>
 
-        <!-- PDF BOOKS TAB (PLACEHOLDERS FOR NOW) -->
-        <div id="pdfs" class="tab">
-            <div class="box">
-                <h2>PDF Books</h2>
-                <p>Book Title 1 — description line here...</p>
-                <a href="#" class="open-btn">Open PDF</a>
-            </div>
-
-            <div class="box">
-                <h2>Book Title 2</h2>
-                <p>Short details about this book...</p>
-                <a href="#" class="open-btn">Open PDF</a>
-            </div>
+    <main class="main-layout" role="main">
+      <!-- SIDEBAR - Tabs -->
+      <nav class="sidebar" aria-label="Primary">
+        <div class="nav-list" role="tablist" aria-orientation="vertical">
+          <button class="nav-btn active" role="tab" aria-selected="true" aria-controls="tab-home" onclick="openTab('tab-home', this)">
+            Home
+          </button>
+          <button class="nav-btn" role="tab" aria-selected="false" aria-controls="tab-services" onclick="openTab('tab-services', this)">
+            Dargah Videos
+          </button>
+          <button class="nav-btn" role="tab" aria-selected="false" aria-controls="tab-docs" onclick="openTab('tab-docs', this)">
+            Our PDFs
+          </button>
+          <button class="nav-btn" role="tab" aria-selected="false" aria-controls="tab-contact" onclick="openTab('tab-contact', this)">
+            Contact
+          </button>
         </div>
+      </nav>
 
-        <!-- MEELAD VIDEOS TAB -->
-        <div id="meelad" class="tab">
-            <h2>Annual Meelad Shareef Videos</h2>
+      <!-- MAIN CONTENT -->
+      <div class="content">
+        <!-- HERO -->
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-text">
+            <h1 id="hero-title" data-aos="zoom-in">Welcome to the Portal</h1>
+            <p data-aos="fade-up" data-aos-delay="120">Explore services, download resources, and reach out. Smooth animations make it easy to navigate.</p>
 
-            <!-- VIDEO 1 -->
-            <div class="box video-wrap">
-                <h3>5th Annual Meelad</h3>
-                <iframe loading="lazy" allowfullscreen src="https://www.facebook.com/plugins/video.php?href=PLACEHOLDER_URL_1"></iframe>
-                <a class="open-btn" href="PLACEHOLDER_URL_1" target="_blank">Open on Facebook</a>
+            <div class="hero-actions" data-aos="fade-up" data-aos-delay="220">
+              <a href="#services" class="btn primary" onclick="openTab('tab-services', document.querySelector('[aria-controls=tab-services]'))">Explore Services</a>
+              <a href="#downloads" class="btn ghost" onclick="openTab('tab-docs', document.querySelector('[aria-controls=tab-docs]'))">Downloads</a>
             </div>
+          </div>
 
-            <!-- VIDEO 2 -->
-            <div class="box video-wrap">
-                <h3>4th Annual Meelad</h3>
-                <iframe loading="lazy" allowfullscreen src="https://www.facebook.com/plugins/video.php?href=PLACEHOLDER_URL_2"></iframe>
-                <a class="open-btn" href="PLACEHOLDER_URL_2" target="_blank">Open on Facebook</a>
+          <!-- Right side: lottie or image -->
+          <div class="hero-media" aria-hidden="true">
+            <!-- Lottie player example (optional) -->
+            <lottie-player
+              src="https://assets10.lottiefiles.com/packages/lf20_tfb3estd.json"
+              background="transparent"
+              speed="1"
+              style="width:140px; height:140px;"
+              loop
+              autoplay
+              class="hero-lottie"
+              data-aos="zoom-in"
+              data-aos-delay="80">
+            </lottie-player>
+            <!-- fallback image (hide if you prefer lottie) -->
+            <!-- <img src="hero-illustration.png" alt="Illustration" class="hero-logo" /> -->
+          </div>
+        </section>
+
+        <!-- TAB PANES -->
+        <section id="tab-home" class="tab active" role="tabpanel" aria-labelledby="home-tab">
+          <h2 data-aos="fade-up">Latest updates</h2>
+          <div class="grid">
+            <article class="box" data-aos="fade-up" data-aos-delay="60">
+              <h3>Announcement 1</h3>
+              <p>Short blurb about the update. Click to read more.</p>
+            </article>
+
+            <article class="box" data-aos="fade-up" data-aos-delay="120">
+              <h3>Announcement 2</h3>
+              <p>Short blurb about the update. Click to read more.</p>
+            </article>
+
+            <article class="box" data-aos="fade-up" data-aos-delay="180">
+              <h3>Announcement 3</h3>
+              <p>Short blurb about the update. Click to read more.</p>
+            </article>
+          </div>
+        </section>
+
+		<section id="tab-services" class="tab" role="tabpanel">
+	  <h2 data-aos="fade-up">Dargah Videos</h2>
+
+	  <!-- Grid can contain multiple video cards -->
+	  <div class="grid">
+		<!-- Video card 1 -->
+		<div class="box" data-aos="fade-up" data-aos-delay="60">
+		  <h3>Video Title 1</h3>
+		  <p style="margin-bottom:10px;color:var(--muted);font-size:13px;">Short description or date of the video.</p>
+		  <div class="fb-video-wrap" data-aos="fade-up" data-aos-delay="120">
+			<!-- replace the data-href URL with your public Facebook video URL -->
+			<div class="fb-video" data-href="https://web.facebook.com/share/v/1AP25WWkiu/" data-show-text="false"></div>
+		  </div>
+		</div>
+
+		<!-- Video card 2 -->
+		<div class="box" data-aos="fade-up" data-aos-delay="100">
+		  <h3>Video Title 2</h3>
+		  <p style="margin-bottom:10px;color:var(--muted);font-size:13px;">Short description.</p>
+		  <div class="fb-video-wrap" data-aos="fade-up" data-aos-delay="160">
+			<div class="fb-video" data-href="https://web.facebook.com/share/v/1A412MWcnM/" data-show-text="false"></div>
+		  </div>
+		</div>
+
+		<!-- Video card 3 -->
+		<div class="box" data-aos="fade-up" data-aos-delay="140">
+		  <h3>Video Title 3</h3>
+		  <p style="margin-bottom:10px;color:var(--muted);font-size:13px;">Short description.</p>
+		  <div class="fb-video-wrap" data-aos="fade-up" data-aos-delay="200">
+			<div class="fb-video" data-href="https://web.facebook.com/share/v/1ANmBDvzhi/" data-show-text="false"></div>
+		  </div>
+		</div>
+	  </div>
+	</section>
+
+
+        <section id="tab-docs" class="tab" role="tabpanel" aria-labelledby="docs-tab">
+          <h2 data-aos="fade-up">Our PDFs</h2>
+          <div class="grid">
+            <div class="box" data-aos="fade-up" data-aos-delay="60">
+              <h3>PDF Resources</h3>
+              <p>List of downloadable PDFs or links.</p>
             </div>
-        </div>
-
-        <!-- DARGAH (PLACEHOLDER) -->
-        <div id="dargah" class="tab">
-            <div class="box">
-                <h2>Dargah</h2>
-                <p>Description and images will be added in Part 2.</p>
+            <div class="box" data-aos="fade-up" data-aos-delay="120">
+              <h3>Forms</h3>
+              <p>Application forms, guidelines, and more.</p>
             </div>
-        </div>
+          </div>
+        </section>
 
-        <!-- HAZRI -->
-        <div id="hazri" class="tab">
-            <div class="box">
-                <h2>Hazri Dargah</h2>
-                <p>Details will be added in Part 2.</p>
-            </div>
-        </div>
+        <section id="tab-contact" class="tab" role="tabpanel" aria-labelledby="contact-tab">
+          <h2 data-aos="fade-up">Contact</h2>
+          <div class="box" data-aos="fade-up" data-aos-delay="80">
+            <p>Contact details and quick contact form (if applicable).</p>
+          </div>
+        </section>
 
-        <!-- SHAJRA -->
-        <div id="shajra" class="tab">
-            <div class="box">
-                <h2>Shajra</h2>
-                <p>Will be added later.</p>
-            </div>
-        </div>
+        <footer>
+          © <span id="yr"></span> Ushaq-e-Rasool — All rights reserved.
+        </footer>
+      </div>
+    </main>
+  </div>
 
-        <!-- PROJECTS -->
-        <div id="projects" class="tab">
-            <div class="box">
-                <h2>Our Projects</h2>
-                <p>Project descriptions coming in Part 2.</p>
-            </div>
-        </div>
-
-        <!-- DONATION -->
-        <div id="donation" class="tab">
-            <div class="box">
-                <h2>Donation Center</h2>
-                <p>Details + bank/jazzcash etc (to be added).</p>
-            </div>
-        </div>
-
-        <!-- LINKS -->
-        <div id="links" class="tab">
-            <div class="box">
-                <h2>Other Links</h2>
-                <p>Will be added soon.</p>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-        function openTab(tabName) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
+  <!-- Scripts: tab switching, AOS init, GSAP hero animation -->
+  <script>
+    // Basic tab switching with smooth animation and ARIA updates
+    function openTab(tabId, btnEl) {
+      try {
+        const current = document.querySelector('.tab.active');
+        const next = document.getElementById(tabId);
+        // update aria-selected on buttons
+        document.querySelectorAll('.nav-btn').forEach(b=>{
+          b.classList.remove('active');
+          b.setAttribute('aria-selected','false');
+        });
+        if (btnEl) {
+          btnEl.classList.add('active');
+          btnEl.setAttribute('aria-selected','true');
+        } else {
+          // if no btn provided, try to mark the corresponding nav button
+          const btn = document.querySelector('[aria-controls="'+tabId+'"]');
+          if (btn) { btn.classList.add('active'); btn.setAttribute('aria-selected','true'); }
         }
-    </script>
 
+        if (current && current !== next) {
+          // animate out current
+          current.classList.remove('active');
+          current.style.opacity = 1;
+          current.style.transform = 'translateY(0)';
+          // small timeout to let transition apply
+          setTimeout(()=> {
+            current.style.display = 'none';
+          }, 360);
+        }
+        // show next
+        next.style.display = 'block';
+        // trigger reflow then animate in
+        requestAnimationFrame(()=> {
+          next.classList.add('active');
+          // refresh AOS so elements inside will animate
+          if (window.AOS) window.AOS.refresh();
+        });
+      } catch(err) {
+        console.error('openTab error', err);
+      }
+    }
+
+    // Init helpers on load
+    document.addEventListener('DOMContentLoaded', function(){
+      // Year
+      document.getElementById('yr').textContent = new Date().getFullYear();
+
+      // Ensure initial visible tab displays
+      document.querySelectorAll('.tab').forEach(t => {
+        if (t.classList.contains('active')) t.style.display = 'block';
+        else t.style.display = 'none';
+      });
+
+      // AOS init (Animate on Scroll)
+      if (window.AOS) {
+        AOS.init({
+          duration: 520,
+          easing: 'ease-out-quart',
+          once: true,
+          offset: 100
+        });
+      }
+
+      // GSAP hero entrance (if GSAP loaded)
+      if (window.gsap) {
+        try {
+          gsap.from(".hero h1", {y: -18, opacity: 0, duration: .9, ease: "power3.out"} );
+          gsap.from(".hero-lottie, .hero .hero-media img, .hero .hero-logo", {scale: 0.96, opacity: 0, duration: .9, delay: .12, ease: "power3.out"});
+          gsap.from(".hero p, .hero .hero-actions", {y: 8, opacity: 0, duration: 0.8, delay: 0.18});
+        } catch(e) { console.warn('GSAP hero anim failed', e); }
+      }
+
+      // If AOS is not available, use IntersectionObserver for boxes
+      if (!window.AOS && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = 1;
+              entry.target.style.transform = 'none';
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {threshold:0.12});
+        document.querySelectorAll('.box').forEach(el=>{
+          el.style.opacity = 0;
+          el.style.transform = 'translateY(12px)';
+          io.observe(el);
+        });
+      }
+    });
+  </script>
+<!-- Facebook SDK for Embedded Video (one-time) -->
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous"
+  src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0">
+</script>
 </body>
 </html>
