@@ -1,0 +1,223 @@
+<!-- PART 1 — COMPLETE HTML TEMPLATE WITH PLACEHOLDERS -->
+<!-- Your logo file should be placed as: /logo.png in same folder -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ushaq-e-Rasool Organization</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #d7ffd7; /* Light Green */
+        }
+
+        /* SIDEBAR */
+        #sidebar {
+            width: 260px;
+            background: #0b5e0b;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            padding-top: 20px;
+            overflow-y: auto;
+        }
+
+        #sidebar h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .nav-btn {
+            padding: 14px;
+            border: none;
+            width: 100%;
+            text-align: left;
+            color: white;
+            background: transparent;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .nav-btn:hover {
+            background: #0a4f0a;
+        }
+
+        /* CONTENT */
+        #content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+
+        .tab {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+
+        /* MAIN HERO */
+        .hero {
+            text-align: center;
+            padding: 40px;
+        }
+        .hero img {
+            width: 180px;
+            height: auto;
+            margin-top: 10px;
+        }
+
+        /* GENERIC BOX STYLE */
+        .box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.15);
+        }
+
+        /* VIDEO EMBED */
+        .video-wrap iframe {
+            width: 100%;
+            height: 350px;
+            border-radius: 10px;
+            border: none;
+        }
+
+        .open-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 16px;
+            background: #0b5e0b;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+        .open-btn:hover { background: #0a4f0a; }
+    </style>
+</head>
+
+<body>
+    <!-- SIDEBAR -->
+    <div id="sidebar">
+        <h2>Navigation</h2>
+        <button class="nav-btn" onclick="openTab('home')">Home</button>
+        <button class="nav-btn" onclick="openTab('pdfs')">PDF Books</button>
+        <button class="nav-btn" onclick="openTab('meelad')">Annual Meelad Videos</button>
+        <button class="nav-btn" onclick="openTab('dargah')">Dargah</button>
+        <button class="nav-btn" onclick="openTab('hazri')">Hazri Dargah</button>
+        <button class="nav-btn" onclick="openTab('shajra')">Shajra</button>
+        <button class="nav-btn" onclick="openTab('projects')">Our Projects</button>
+        <button class="nav-btn" onclick="openTab('donation')">Donation Center</button>
+        <button class="nav-btn" onclick="openTab('links')">Other Links</button>
+    </div>
+
+    <!-- PAGE CONTENT -->
+    <div id="content">
+
+        <!-- HOME TAB -->
+        <div id="home" class="tab active">
+            <div class="hero">
+                <h1 style="color: #0b5e0b; font-size: 48px;">Ushaq-e-Rasool</h1>
+                <img src="logo.png" alt="Organization Logo">
+                <p>Welcome to our official organization website.</p>
+            </div>
+        </div>
+
+        <!-- PDF BOOKS TAB (PLACEHOLDERS FOR NOW) -->
+        <div id="pdfs" class="tab">
+            <div class="box">
+                <h2>PDF Books</h2>
+                <p>Book Title 1 — description line here...</p>
+                <a href="#" class="open-btn">Open PDF</a>
+            </div>
+
+            <div class="box">
+                <h2>Book Title 2</h2>
+                <p>Short details about this book...</p>
+                <a href="#" class="open-btn">Open PDF</a>
+            </div>
+        </div>
+
+        <!-- MEELAD VIDEOS TAB -->
+        <div id="meelad" class="tab">
+            <h2>Annual Meelad Shareef Videos</h2>
+
+            <!-- VIDEO 1 -->
+            <div class="box video-wrap">
+                <h3>5th Annual Meelad</h3>
+                <iframe loading="lazy" allowfullscreen src="https://www.facebook.com/plugins/video.php?href=PLACEHOLDER_URL_1"></iframe>
+                <a class="open-btn" href="PLACEHOLDER_URL_1" target="_blank">Open on Facebook</a>
+            </div>
+
+            <!-- VIDEO 2 -->
+            <div class="box video-wrap">
+                <h3>4th Annual Meelad</h3>
+                <iframe loading="lazy" allowfullscreen src="https://www.facebook.com/plugins/video.php?href=PLACEHOLDER_URL_2"></iframe>
+                <a class="open-btn" href="PLACEHOLDER_URL_2" target="_blank">Open on Facebook</a>
+            </div>
+        </div>
+
+        <!-- DARGAH (PLACEHOLDER) -->
+        <div id="dargah" class="tab">
+            <div class="box">
+                <h2>Dargah</h2>
+                <p>Description and images will be added in Part 2.</p>
+            </div>
+        </div>
+
+        <!-- HAZRI -->
+        <div id="hazri" class="tab">
+            <div class="box">
+                <h2>Hazri Dargah</h2>
+                <p>Details will be added in Part 2.</p>
+            </div>
+        </div>
+
+        <!-- SHAJRA -->
+        <div id="shajra" class="tab">
+            <div class="box">
+                <h2>Shajra</h2>
+                <p>Will be added later.</p>
+            </div>
+        </div>
+
+        <!-- PROJECTS -->
+        <div id="projects" class="tab">
+            <div class="box">
+                <h2>Our Projects</h2>
+                <p>Project descriptions coming in Part 2.</p>
+            </div>
+        </div>
+
+        <!-- DONATION -->
+        <div id="donation" class="tab">
+            <div class="box">
+                <h2>Donation Center</h2>
+                <p>Details + bank/jazzcash etc (to be added).</p>
+            </div>
+        </div>
+
+        <!-- LINKS -->
+        <div id="links" class="tab">
+            <div class="box">
+                <h2>Other Links</h2>
+                <p>Will be added soon.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function openTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
